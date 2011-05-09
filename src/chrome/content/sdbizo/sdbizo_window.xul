@@ -3,30 +3,30 @@
 
 <!DOCTYPE window SYSTEM "chrome://sdbizo/locale/sdbizo.dtd">
 
-<!-- 
- 
+<!--
+
  Copyright 2010 Bizo, Inc (Donnie Flood [donnie@bizo.com])
-  
- Licensed under the Apache License, Version 2.0 (the "License"); you may not use this 
- file except in compliance with the License. You may obtain a copy of the License at 
- 
- http://www.apache.org/licenses/LICENSE-2.0 
- 
- Unless required by applicable law or agreed to in writing, software distributed under 
- the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF 
- ANY KIND, either express or implied. See the License for the specific language governing 
+
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ file except in compliance with the License. You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under
+ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ ANY KIND, either express or implied. See the License for the specific language governing
  permissions and limitations under the License.
- 
- 
+
+
  -->
 
 <window id="sdbizo_window" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  xmlns:html="http://www.w3.org/1999/xhtml" title="SDB Tool" 
+  xmlns:html="http://www.w3.org/1999/xhtml" title="SDB Tool"
   resizeable="true" scrollbars="true"
   hidechrome="false"
   onload="sdbizoLoad();">
-  
-  <html:link rel="icon" href="http://www.bizo.com/favicon.ico"/>  
+
+  <html:link rel="icon" href="http://www.bizo.com/favicon.ico"/>
 
   <script type="application/x-javascript" src="chrome://sdbizo/content/js/lib/jquery-1.2.6.min.js" />
   <script type="application/x-javascript" src="chrome://sdbizo/content/js/lib/sha1.js" />
@@ -35,12 +35,10 @@
   <script type="application/x-javascript" src="chrome://sdbizo/content/js/sdbizo_results_tree_view.js" />
   <script type="application/x-javascript" src="chrome://sdbizo/content/js/sdbizo_prefs.js" />
   <script type="application/x-javascript" src="chrome://sdbizo/content/js/sdbizo_control.js" />
- 
-  <hbox style="overflow:auto;" align="center" flex="1">
- 
+
+  <hbox style="overflow:auto;" align="center" flex="1" width="2000%">
+
    <vbox  align="stretch" flex="1" style="border:1px solid #999; margin-bottom:10px;padding-top:10px;">
-
-
      <hbox id="sdb_error_flash" pack="center" style="color:red" hidden="true">Error: Check log for details <label style="color:blue" value="[close]" onclick="closeError();"/></hbox>
 
      <!-- title box -->
@@ -51,10 +49,10 @@
        <button label="Config" oncommand="SdbizoController.execute('showPrefs');"/>
        <label href="http://code.google.com/p/sdbtool/issues/list" value="Report an Issue" class="text-link"/>
      </hbox>
-  
+
      <!-- main body -->
      <hbox pack="start">
-     
+
        <!-- left column -->
        <vbox id="sdb_query_box">
          <vbox flex="1">
@@ -67,36 +65,34 @@
                  <column/>
                  <column/>
                </columns>
-               <rows>                 
+               <rows>
                  <row>
                    <vbox>
                      <label value="Select Expression"/>
                      <textbox id="sdb_query_domain_expression" cols="50" row="6" multiline="true" emptytext="e.g. select output_list from domain_name [where expression] [sort_instructions] [limit limit]" style="font-family:monospace;overflow:auto;"/>
-                     <label value="Documentation" href="http://docs.amazonwebservices.com/AmazonSimpleDB/2009-04-15/DeveloperGuide/index.html?UsingSelect.html" class="text-link"/>
                    </vbox>
                  </row>
                </rows>
              </grid>
 
-             <hbox aligh="left"><spacer flex="1"/><button label="Run Select" oncommand="SdbizoController.execute('runSelect');"/></hbox>
-
+             <hbox align="left"><label value="Documentation" href="http://docs.amazonwebservices.com/AmazonSimpleDB/2009-04-15/DeveloperGuide/index.html?UsingSelect.html" class="text-link" flex="1" /><button label="Run Select" oncommand="SdbizoController.execute('runSelect');"/></hbox>
            </groupbox>
-                      
+
             <groupbox>
               <caption>
                 <hbox id="sdb_domains_label_and_loader">
-                  <label value="Domains" style="font-weight:bold;"/>                  
+                  <label value="Domains" style="font-weight:bold;"/>
                 </hbox>
               </caption>
-          
+
               <popupset>
-                <popup id="sdb_domains_contextmenu">        
+                <popup id="sdb_domains_contextmenu">
                   <menuitem id="sdb_domains_contextmenu_delete" oncommand="SdbizoController.execute('confirmDeleteDomain');" label="Delete this domain..." />
                   <menuitem oncommand="SdbizoController.execute('loadDomainMetadata');" label="Show Metadata" />
                   <menuitem oncommand="SdbizoController.execute('reloadDomains');" label="Reload Domains" />
                 </popup>
               </popupset>
-            
+
               <tree id="sdb_domain_tree" height="200px">
                 <treecols>
                   <treecol id="sdb_domain_col" label="Domains" sortDirection="ascending" flex="1"
@@ -104,27 +100,27 @@
                 </treecols>
                 <treechildren id="sdb_domain_tree_children" context="sdb_domains_contextmenu" />
               </tree>
-            
+
               <hbox id="sdb_domains_reload_delete_controls">
                 <button id="sdb_domains_reload_button" label="Reload Domains" oncommand="SdbizoController.execute('reloadDomains');"/><spacer flex="1"/>
                 <button id="sdb_domains_meta_button" label="Show Metadata" oncommand="SdbizoController.execute('loadDomainMetadata');"/><spacer flex="1"/>
                 <button id="sdb_domains_delete_button" label="Delete Domain..." oncommand="SdbizoController.execute('confirmDeleteDomain');"/>
               </hbox>
-        
+
               <separator/>
-            
-              <hbox id="sdb_domains_create_controls"> 
+
+              <hbox id="sdb_domains_create_controls">
                 <spacer flex="1"/>
                 <textbox id="sdb_create_domain_input" size ="20" emptytext="e.g. mydomain"/>
-                <button id="sdb_domains_create_button" label="Create Domain" oncommand="SdbizoController.execute('createDomain')"/>                        
+                <button id="sdb_domains_create_button" label="Create Domain" oncommand="SdbizoController.execute('createDomain')"/>
               </hbox>
-          
+
             </groupbox>
-            
+
             <groupbox>
                <caption>
                  <hbox id="sdb_region_label_and_loader">
-                   <label value="Region" style="font-weight:bold;"/>                  
+                   <label value="Region" style="font-weight:bold;"/>
                  </hbox>
                </caption>
                <menulist class="regionList" id="sdb_region_list" label="[Select Region]" oncommand="SdbizoController.execute('changeSelectedRegion');">
@@ -136,7 +132,7 @@
                  </menupopup>
                </menulist>
              </groupbox>
-      
+
             <groupbox>
               <caption>
                 <label value="Log" style="font-weight:bold;"/>
@@ -145,41 +141,41 @@
                 <grippy id="sdb_log_grippy"/>
               </splitter>
               <textbox  multiline="true" readonly="true" id="sdb_log" rows="10" style="overflow:auto"/>
-            </groupbox>     
-      
-            </vbox>            
-          </vbox><!-- end left column -->  
+            </groupbox>
+
+            </vbox>
+          </vbox><!-- end left column -->
 
 
-          <!-- middle column -->
-          <vbox id="sdb_results_box" flex="10" width="500px">
+          <!-- right column -->
+          <vbox id="sdb_results_box" flex="10" width="">
             <groupbox>
               <caption>
                 <hbox id="sdb_results_label_and_loader">
                   <label value="Results" style="font-weight:bold;"/>
                 </hbox>
               </caption>
-            
+
               <popupset>
-                <popup id="sdb_results_contextmenu">        
-                  <menuitem id="sdb_results_contextmenu_get_attributes" oncommand="SdbizoController.execute('getAttributesPrompt');" label="Get Attributes (filter)..." />          
+                <popup id="sdb_results_contextmenu">
+                  <menuitem id="sdb_results_contextmenu_get_attributes" oncommand="SdbizoController.execute('getAttributesPrompt');" label="Get Attributes (filter)..." />
                   <menuitem id="sdb_results_contextmenu_delete_item" oncommand="SdbizoController.execute('deleteItemPrompt');" label="Delete Item (and all Attributes)..."/>
                   <menuitem id="sdb_results_contextmenu_delete_attribute" oncommand="SdbizoController.execute('deleteAttributePrompt');" label="Delete Attribute (all values)..."/>
                   <menuitem id="sdb_results_contextmenu_delete_attribute_value" oncommand="SdbizoController.execute('deleteAttributeValuePrompt');" label="Delete Attribute Value..."/>
                 </popup>
               </popupset>
-                  
+
               <tree id="sdb_results_tree" minheight="300px" maxheight="600px" onselect="itemSelected();">
                 <treecols hidecolumnpicker="true">
                   <treecol id="sdb_results_items_col" label="Items" sortDirection="ascending" flex="1"
                       persist="width ordinal hidden sortDirection" primary="true"/>
-                  <splitter class="tree-splitter"/> 
+                  <splitter class="tree-splitter"/>
                   <treecol id="sdb_results_attribute_names_col" label="Attribute Names" sortDirection="ascending" flex="1"
                       persist="width ordinal hidden sortDirection" />
-                  <splitter class="tree-splitter"/> 
+                  <splitter class="tree-splitter"/>
                   <treecol id="sdb_results_attribute_values_col" label="Attribute Values" sortDirection="ascending" flex="1"
                       persist="width ordinal hidden sortDirection" />
-                   <splitter class="tree-splitter"/> 
+                   <splitter class="tree-splitter"/>
                 </treecols>
                 <treechildren id="sdb_results_tree_children" context="sdb_results_contextmenu" />
               </tree>
@@ -188,11 +184,11 @@
                 <spacer flex="1" />
                 <button id="sdb_results_next_button" label="Next Results" oncommand="SdbizoController.execute('runSelect');" disabled="true"/>
               </hbox>
-              
+
             </groupbox>
-            
+
             <hbox id="sdb_results_get_put_controls" align="center" minwidth="400px">
-              <groupbox align="start">
+              <groupbox align="stretch">
                 <caption>Add/Replace Attributes</caption>
                 <grid>
                   <columns>
@@ -213,19 +209,11 @@
                     <row><spacer flex="1"/><hbox pack="end"><button id="sdb_results_put_attributes_button" label="Put Attributes" oncommand="SdbizoController.execute('putAttributes');"/></hbox></row>
                   </rows>
                 </grid>
-                <separator/>
-        
-                <spacer flex="1"/>
               </groupbox>
             </hbox>
-
-      
           </vbox>
-
-          <spacer flex="1"/>
-      </hbox> 
+      </hbox>
     </vbox>
-  
-
   </hbox>
 </window>
+
