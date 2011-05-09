@@ -7,28 +7,22 @@
     <em:id>sdbizo@bizo.com</em:id>
     <em:type>2</em:type>
     <em:version>__VERSION__.__BUILD__</em:version>
-    <em:file resource="urn:mozilla:extension:file:sdbizo.jar"/>
-   
-    <!-- Target Application this extension can install into, 
-         with minimum and maximum supported versions. --> 
+
+    <!-- Target Application this extension can install into,
+         with minimum and maximum supported versions. -->
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>1.5</em:minVersion>
-        <em:maxVersion>3.6.*</em:maxVersion>
+        <em:maxVersion>4.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
     <!-- Front End MetaData -->
     <em:name>SDBizo</em:name>
-    <em:description>Mozilla Firefox extension for interacting with Amazon Simple DB (SDB).</em:description>
+    <em:description>Mozilla Firefox extension for interacting with Amazon SimpleDB (SDB).</em:description>
     <em:creator>Donnie Flood at Bizo, Inc (http://www.bizo.com)</em:creator>
+    <em:contributor>Matt Basta at Serverboy Software (http://serverboy.net/)</em:contributor>
     <em:homepageURL>http://www.bizo.com</em:homepageURL>
-    <em:updateURL>https://s3.amazonaws.com/com-bizo-public/tools/sdbizo/sdbizo.rdf</em:updateURL>
-  </Description>
-
-  <Description about="urn:mozilla:extension:file:sdbizo.jar"
-                   em:package="content/sdbizo/">
-    <em:locale>locale/sdbizo/en-US/</em:locale>
   </Description>
 </RDF>
